@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { post } from '$lib/fetch';
+	import { DateTime } from 'luxon';
 
 	let name = 'Chair';
 	let duration = 60;
@@ -9,10 +10,15 @@
 	let err = null;
 
 	async function onSubmit() {
+		const createdAt = DateTime.now();
+		const endingDate = DateTime.local(2023, 12, 31, 23, 59, 59);
+
 		[data, err] = await post('/dashboard/items/new', {
 			name,
 			description: desc,
-			duration
+			duration,
+			createdAt,
+			endingDate,
 		});
 
 		if (!err) {
